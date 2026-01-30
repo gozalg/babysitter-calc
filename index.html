@@ -308,7 +308,7 @@
         <p class="subtitle">חשבו את העלות המדויקת של שמירה</p>
 
         <div class="info-box">
-            💡 תעריפים: ₪40 לשעה עד 22:00, ₪50 לשעה אחרי 22:00
+            💡 תעריף: ₪40 לשעה
         </div>
 
         <div class="error" id="error"></div>
@@ -324,16 +324,9 @@
                 <input type="time" id="endTime" required>
             </div>
 
-            <div class="rate-inputs">
-                <div class="form-group">
-                    <label for="regularRate">תעריף רגיל (₪/שעה)</label>
-                    <input type="number" id="regularRate" value="40" min="0" step="5" required>
-                </div>
-
-                <div class="form-group">
-                    <label for="lateRate">תעריף מאוחר (₪/שעה)</label>
-                    <input type="number" id="lateRate" value="50" min="0" step="5" required>
-                </div>
+            <div class="form-group">
+                <label for="regularRate">תעריף (₪/שעה)</label>
+                <input type="number" id="regularRate" value="40" min="0" step="5" required>
             </div>
 
             <div class="form-group">
@@ -344,7 +337,7 @@
             <div class="form-group">
                 <label style="display: flex; align-items: center; gap: 8px;">
                     <input type="checkbox" id="roundToTen" style="width: auto; cursor: pointer;">
-                    <span>עגל ל-10 הקרוב</span>
+                    <span>עגל למעלה ל-10</span>
                 </label>
             </div>
 
@@ -411,33 +404,18 @@
             return `${hours} שעות ו-${mins} דקות`;
         }
 
-        function calculateCost(startMinutes, endMinutes, regularRate, lateRate) {
-            const nightThreshold = 22 * 60;
-            let cost = 0;
-            let regularHours = 0;
-            let lateHours = 0;
-
+        function calculateCost(startMinutes, endMinutes, regularRate) {
             if (endMinutes <= startMinutes) {
                 endMinutes += 24 * 60;
             }
 
-            if (startMinutes >= nightThreshold) {
-                lateHours = (endMinutes - startMinutes) / 60;
-                cost = lateHours * lateRate;
-            } else if (endMinutes <= nightThreshold) {
-                regularHours = (endMinutes - startMinutes) / 60;
-                cost = regularHours * regularRate;
-            } else {
-                regularHours = (nightThreshold - startMinutes) / 60;
-                lateHours = (endMinutes - nightThreshold) / 60;
-                cost = (regularHours * regularRate) + (lateHours * lateRate);
-            }
+            const totalMinutes = endMinutes - startMinutes;
+            const hours = totalMinutes / 60;
+            const cost = hours * regularRate;
 
             return {
                 cost: cost,
-                totalMinutes: endMinutes - startMinutes,
-                regularHours: regularHours,
-                lateHours: lateHours
+                totalMinutes: totalMinutes
             };
         }
 
@@ -447,7 +425,6 @@
             const startTime = document.getElementById('startTime').value;
             const endTime = document.getElementById('endTime').value;
             const regularRate = parseFloat(document.getElementById('regularRate').value);
-            const lateRate = parseFloat(document.getElementById('lateRate').value);
             const travelFee = parseFloat(document.getElementById('travelFee').value) || 0;
             const roundToTen = document.getElementById('roundToTen').checked;
 
@@ -456,7 +433,7 @@
                 return;
             }
 
-            if (regularRate < 0 || lateRate < 0 || travelFee < 0) {
+            if (regularRate < 0 || travelFee < 0) {
                 showError('⚠️ הערכים חייבים להיות חיוביים');
                 return;
             }
@@ -464,11 +441,11 @@
             const startMinutes = parseTimeToMinutes(startTime);
             const endMinutes = parseTimeToMinutes(endTime);
 
-            const calculation = calculateCost(startMinutes, endMinutes, regularRate, lateRate);
+            const calculation = calculateCost(startMinutes, endMinutes, regularRate);
             let totalCost = calculation.cost + travelFee;
 
             if (roundToTen) {
-                totalCost = Math.round(totalCost / 10) * 10;
+                totalCost = Math.ceil(totalCost / 10) * 10;
             }
 
             totalAmountSpan.textContent = `₪${totalCost.toFixed(2)}`;
