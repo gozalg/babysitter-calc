@@ -1,0 +1,568 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#38bdf8">
+    <meta name="description" content="מחשבון בייביסיטר - חשבו את העלות המדויקת של שמירה">
+    <link rel="manifest" href="data:application/json;base64,ewogICJuYW1lIjogIteX15vXqdeR15XXnyDXkdeZ15nXkdeZ16HXmdem16giLAogICJzaG9ydF9uYW1lIjogIteR15nXmdeR15nXodeZ16bXqCIsCiAgImRlc2NyaXB0aW9uIjogIteX15vXqdeR15XXnyDXkdeZ15nXkdeZ16HXmtem16ggLSDXl9ep15HXlSDXkNiqINeU16LXnNeg15Qg15TXnteT15nXmden16og16nXnCDXqdee15nXqNeUIiwKICAic3RhcnRfdXJsIjogIi4iLAogICJkaXNwbGF5IjogInN0YW5kYWxvbmUiLAogICJiYWNrZ3JvdW5kX2NvbG9yIjogIiMwZjE3MmEiLAogICJ0aGVtZV9jb2xvciI6ICIjMzhiZGY4IiwKICAiaWNvbnMiOiBbCiAgICB7CiAgICAgICJzcmMiOiAiZGF0YTppbWFnZS9zdmcreG1sLCUzQ3N2ZyB4bWxucz0naHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmcnIHZpZXdCb3g9JzAgMCAxMDAgMTAwJyUzRSUzQ3JlY3Qgd2lkdGg9JzEwMCcgaGVpZ2h0PScxMDAnIGZpbGw9JyUyMzM4YmRmOCcvJTNFJTNDdGV4dCB4PSc1MCUyNScgeT0nNTAlMjUnIGZvbnQtc2l6ZT0nNTAnIHRleHQtYW5jaG9yPSdtaWRkbGUnIGR5PScuM2VtJyUzRSVGMCU5RiVBNyVBRSUzQy90ZXh0JTNFJTNDL3N2ZyUzRSIsCiAgICAgICJzaXplcyI6ICIxOTJ4MTkyIiwKICAgICAgInR5cGUiOiAiaW1hZ2Uvc3ZnK3htbCIKICAgIH0sCiAgICB7CiAgICAgICJzcmMiOiAiZGF0YTppbWFnZS9zdmcreG1sLCUzQ3N2ZyB4bWxucz0naHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmcnIHZpZXdCb3g9JzAgMCAxMDAgMTAwJyUzRSUzQ3JlY3Qgd2lkdGg9JzEwMCcgaGVpZ2h0PScxMDAnIGZpbGw9JyUyMzM4YmRmOCcvJTNFJTNDdGV4dCB4PSc1MCUyNScgeT0nNTAlMjUnIGZvbnQtc2l6ZT0nNTAnIHRleHQtYW5jaG9yPSdtaWRkbGUnIGR5PScuM2VtJyUzRSVGMCU5RiVBNyVBRSUzQy90ZXh0JTNFJTNDL3N2ZyUzRSIsCiAgICAgICJzaXplcyI6ICI1MTJ4NTEyIiwKICAgICAgInR5cGUiOiAiaW1hZ2Uvc3ZnK3htbCIKICAgIH0KICBdCn0=">
+    <link rel="apple-touch-icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' fill='%2338bdf8'/%3E%3Ctext x='50%25' y='50%25' font-size='50' text-anchor='middle' dy='.3em'%3E🧮%3C/text%3E%3C/svg%3E">
+    <title>מחשבון בייביסיטר</title>
+    <style>
+        :root {
+            --color-bg-primary: #0f172a;
+            --color-bg-secondary: #1e293b;
+            --color-text-primary: #f1f5f9;
+            --color-text-secondary: #cbd5e1;
+            --color-accent: #38bdf8;
+            --color-accent-hover: #0ea5e9;
+            --color-border: rgba(148, 163, 184, 0.3);
+            --color-success: #10b981;
+            --color-error: #ef4444;
+        }
+
+        @media (prefers-color-scheme: light) {
+            :root {
+                --color-bg-primary: #ffffff;
+                --color-bg-secondary: #f8fafc;
+                --color-text-primary: #0f172a;
+                --color-text-secondary: #475569;
+                --color-accent: #0284c7;
+                --color-accent-hover: #0369a1;
+                --color-border: rgba(148, 163, 184, 0.3);
+                --color-success: #059669;
+                --color-error: #dc2626;
+            }
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: var(--color-bg-primary);
+            color: var(--color-text-primary);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            direction: rtl;
+        }
+
+        .container {
+            background: var(--color-bg-secondary);
+            border-radius: 16px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+            padding: 32px;
+            max-width: 480px;
+            width: 100%;
+        }
+
+        h1 {
+            font-size: 28px;
+            margin-bottom: 8px;
+            color: var(--color-accent);
+            text-align: center;
+        }
+
+        .subtitle {
+            text-align: center;
+            color: var(--color-text-secondary);
+            font-size: 14px;
+            margin-bottom: 32px;
+        }
+
+        .form-group {
+            margin-bottom: 24px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: var(--color-text-primary);
+            font-size: 15px;
+        }
+
+        input[type="time"],
+        input[type="number"] {
+            width: 100%;
+            padding: 12px 16px;
+            border: 2px solid var(--color-border);
+            border-radius: 8px;
+            background: var(--color-bg-primary);
+            color: var(--color-text-primary);
+            font-size: 16px;
+            transition: all 0.3s ease;
+            direction: ltr;
+            text-align: left;
+        }
+
+        input[type="time"]:focus,
+        input[type="number"]:focus {
+            outline: none;
+            border-color: var(--color-accent);
+            box-shadow: 0 0 0 3px rgba(56, 189, 248, 0.1);
+        }
+
+        input[type="number"] {
+            direction: rtl;
+            text-align: right;
+        }
+
+        .rate-inputs {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+            margin-bottom: 24px;
+        }
+
+        button {
+            width: 100%;
+            padding: 14px;
+            background: var(--color-accent);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        button:hover {
+            background: var(--color-accent-hover);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(56, 189, 248, 0.3);
+        }
+
+        button:active {
+            transform: translateY(0);
+        }
+
+        .result {
+            margin-top: 32px;
+            padding: 24px;
+            background: var(--color-bg-primary);
+            border-radius: 12px;
+            border: 2px solid var(--color-accent);
+            display: none;
+        }
+
+        .result.show {
+            display: block;
+            animation: slideIn 0.4s ease;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .result-title {
+            font-size: 14px;
+            color: var(--color-text-secondary);
+            margin-bottom: 8px;
+            text-align: center;
+        }
+
+        .result-amount {
+            font-size: 36px;
+            font-weight: 700;
+            color: var(--color-accent);
+            text-align: center;
+            margin-bottom: 16px;
+        }
+
+        .breakdown {
+            border-top: 1px solid var(--color-border);
+            padding-top: 16px;
+        }
+
+        .breakdown-item {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 8px;
+            font-size: 14px;
+            color: var(--color-text-secondary);
+        }
+
+        .breakdown-item span:last-child {
+            font-weight: 600;
+            color: var(--color-text-primary);
+        }
+
+        .error {
+            background: var(--color-error);
+            color: white;
+            padding: 12px;
+            border-radius: 8px;
+            margin-bottom: 16px;
+            display: none;
+            text-align: center;
+            font-size: 14px;
+        }
+
+        .error.show {
+            display: block;
+            animation: shake 0.4s ease;
+        }
+
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-10px); }
+            75% { transform: translateX(10px); }
+        }
+
+        .info-box {
+            background: rgba(56, 189, 248, 0.1);
+            border: 1px solid var(--color-accent);
+            border-radius: 8px;
+            padding: 12px;
+            margin-bottom: 24px;
+            font-size: 13px;
+            color: var(--color-text-secondary);
+            text-align: center;
+        }
+
+        .share-buttons {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .share-btn {
+            padding: 12px;
+            border: none;
+            border-radius: 8px;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            color: white;
+        }
+
+        .share-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+        }
+
+        .install-prompt {
+            background: rgba(56, 189, 248, 0.1);
+            border: 2px solid var(--color-accent);
+            border-radius: 8px;
+            padding: 16px;
+            margin-bottom: 24px;
+            text-align: center;
+            display: none;
+        }
+
+        .install-prompt.show {
+            display: block;
+        }
+
+        .install-btn {
+            background: var(--color-accent);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 6px;
+            font-weight: 600;
+            cursor: pointer;
+            margin-top: 12px;
+        }
+
+        @media (max-width: 480px) {
+            .container {
+                padding: 24px;
+            }
+
+            h1 {
+                font-size: 24px;
+            }
+
+            .rate-inputs {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="install-prompt" id="installPrompt">
+        <p style="margin-bottom: 8px; font-weight: 600;">📱 הוסף למסך הבית</p>
+        <p style="font-size: 13px; color: var(--color-text-secondary);">השתמש במחשבון כמו באפליקציה</p>
+        <button class="install-btn" id="installBtn">התקן עכשיו</button>
+    </div>
+
+    <div class="container">
+        <h1>🍼 מחשבון בייביסיטר</h1>
+        <p class="subtitle">חשבו את העלות המדויקת של שמירה</p>
+
+        <div class="info-box">
+            💡 תעריפים: ₪40 לשעה עד 22:00, ₪50 לשעה אחרי 22:00
+        </div>
+
+        <div class="error" id="error"></div>
+
+        <form id="calculatorForm">
+            <div class="form-group">
+                <label for="startTime">⏰ שעת התחלה</label>
+                <input type="time" id="startTime" required>
+            </div>
+
+            <div class="form-group">
+                <label for="endTime">⏰ שעת סיום</label>
+                <input type="time" id="endTime" required>
+            </div>
+
+            <div class="rate-inputs">
+                <div class="form-group">
+                    <label for="regularRate">תעריף רגיל (₪/שעה)</label>
+                    <input type="number" id="regularRate" value="40" min="0" step="5" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="lateRate">תעריף מאוחר (₪/שעה)</label>
+                    <input type="number" id="lateRate" value="50" min="0" step="5" required>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="travelFee">💸 דמי נסיעה (₪)</label>
+                <input type="number" id="travelFee" value="0" min="0" step="5">
+            </div>
+
+            <div class="form-group">
+                <label style="display: flex; align-items: center; gap: 8px;">
+                    <input type="checkbox" id="roundToTen" style="width: auto; cursor: pointer;">
+                    <span>עגל ל-10 הקרוב</span>
+                </label>
+            </div>
+
+            <button type="submit">🧮 חשב עלות</button>
+        </form>
+
+        <div class="share-buttons" id="shareButtons" style="display: none; margin-top: 16px; gap: 12px;">
+            <button type="button" id="shareWhatsApp" class="share-btn" style="background: #25D366;">
+                📱 שתף ב-WhatsApp
+            </button>
+            <button type="button" id="copyResult" class="share-btn" style="background: var(--color-accent);">
+                📋 העתק תוצאה
+            </button>
+        </div>
+
+        <div class="result" id="result">
+            <div class="result-title">סה&quot;כ לתשלום</div>
+            <div class="result-amount" id="totalAmount">₪0</div>
+            <div class="breakdown">
+                <div class="breakdown-item">
+                    <span>⏱ זמן שמירה:</span>
+                    <span id="totalHours">0 שעות</span>
+                </div>
+                <div class="breakdown-item">
+                    <span>💰 עלות שמירה:</span>
+                    <span id="babysittingCost">₪0</span>
+                </div>
+                <div class="breakdown-item">
+                    <span>🚗 דמי נסיעה:</span>
+                    <span id="travelCost">₪0</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const form = document.getElementById('calculatorForm');
+        const errorDiv = document.getElementById('error');
+        const resultDiv = document.getElementById('result');
+        const totalAmountSpan = document.getElementById('totalAmount');
+        const totalHoursSpan = document.getElementById('totalHours');
+        const babysittingCostSpan = document.getElementById('babysittingCost');
+        const travelCostSpan = document.getElementById('travelCost');
+
+        function showError(message) {
+            errorDiv.textContent = message;
+            errorDiv.classList.add('show');
+            setTimeout(() => {
+                errorDiv.classList.remove('show');
+            }, 4000);
+        }
+
+        function parseTimeToMinutes(timeString) {
+            const [hours, minutes] = timeString.split(':').map(Number);
+            return hours * 60 + minutes;
+        }
+
+        function formatHours(minutes) {
+            const hours = Math.floor(minutes / 60);
+            const mins = minutes % 60;
+            if (mins === 0) {
+                return `${hours} שעות`;
+            }
+            return `${hours} שעות ו-${mins} דקות`;
+        }
+
+        function calculateCost(startMinutes, endMinutes, regularRate, lateRate) {
+            const nightThreshold = 22 * 60;
+            let cost = 0;
+            let regularHours = 0;
+            let lateHours = 0;
+
+            if (endMinutes <= startMinutes) {
+                endMinutes += 24 * 60;
+            }
+
+            if (startMinutes >= nightThreshold) {
+                lateHours = (endMinutes - startMinutes) / 60;
+                cost = lateHours * lateRate;
+            } else if (endMinutes <= nightThreshold) {
+                regularHours = (endMinutes - startMinutes) / 60;
+                cost = regularHours * regularRate;
+            } else {
+                regularHours = (nightThreshold - startMinutes) / 60;
+                lateHours = (endMinutes - nightThreshold) / 60;
+                cost = (regularHours * regularRate) + (lateHours * lateRate);
+            }
+
+            return {
+                cost: cost,
+                totalMinutes: endMinutes - startMinutes,
+                regularHours: regularHours,
+                lateHours: lateHours
+            };
+        }
+
+        form.addEventListener('submit', (e) => {
+            e.preventDefault();
+
+            const startTime = document.getElementById('startTime').value;
+            const endTime = document.getElementById('endTime').value;
+            const regularRate = parseFloat(document.getElementById('regularRate').value);
+            const lateRate = parseFloat(document.getElementById('lateRate').value);
+            const travelFee = parseFloat(document.getElementById('travelFee').value) || 0;
+            const roundToTen = document.getElementById('roundToTen').checked;
+
+            if (!startTime || !endTime) {
+                showError('⚠️ נא למלא את שעות ההתחלה והסיום');
+                return;
+            }
+
+            if (regularRate < 0 || lateRate < 0 || travelFee < 0) {
+                showError('⚠️ הערכים חייבים להיות חיוביים');
+                return;
+            }
+
+            const startMinutes = parseTimeToMinutes(startTime);
+            const endMinutes = parseTimeToMinutes(endTime);
+
+            const calculation = calculateCost(startMinutes, endMinutes, regularRate, lateRate);
+            let totalCost = calculation.cost + travelFee;
+
+            if (roundToTen) {
+                totalCost = Math.round(totalCost / 10) * 10;
+            }
+
+            totalAmountSpan.textContent = `₪${totalCost.toFixed(2)}`;
+            totalHoursSpan.textContent = formatHours(calculation.totalMinutes);
+            babysittingCostSpan.textContent = `₪${calculation.cost.toFixed(2)}`;
+            travelCostSpan.textContent = `₪${travelFee.toFixed(2)}`;
+
+            resultDiv.classList.add('show');
+            resultDiv.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+
+            document.getElementById('shareButtons').style.display = 'flex';
+        });
+
+        let deferredPrompt;
+        const installPrompt = document.getElementById('installPrompt');
+        const installBtn = document.getElementById('installBtn');
+
+        window.addEventListener('beforeinstallprompt', (e) => {
+            e.preventDefault();
+            deferredPrompt = e;
+            installPrompt.classList.add('show');
+        });
+
+        installBtn.addEventListener('click', async () => {
+            if (!deferredPrompt) {
+                return;
+            }
+            deferredPrompt.prompt();
+            const { outcome } = await deferredPrompt.userChoice;
+            deferredPrompt = null;
+            installPrompt.classList.remove('show');
+        });
+
+        document.getElementById('shareWhatsApp').addEventListener('click', () => {
+            const totalAmount = document.getElementById('totalAmount').textContent;
+            const totalHours = document.getElementById('totalHours').textContent;
+            const message = `🍼 מחשבון בייביסיטר\n\n` +
+                          `⏱ זמן שמירה: ${totalHours}\n` +
+                          `💰 סה"כ לתשלום: ${totalAmount}\n\n` +
+                          `מחושב באמצעות מחשבון בייביסיטר`;
+            
+            const whatsappUrl = `https://wa.me/?text=${encodeURIComponent(message)}`;
+            window.open(whatsappUrl, '_blank');
+        });
+
+        document.getElementById('copyResult').addEventListener('click', async () => {
+            const totalAmount = document.getElementById('totalAmount').textContent;
+            const totalHours = document.getElementById('totalHours').textContent;
+            const babysittingCost = document.getElementById('babysittingCost').textContent;
+            const travelCost = document.getElementById('travelCost').textContent;
+            
+            const text = `🍼 מחשבון בייביסיטר\n\n` +
+                        `⏱ זמן שמירה: ${totalHours}\n` +
+                        `💰 עלות שמירה: ${babysittingCost}\n` +
+                        `🚗 דמי נסיעה: ${travelCost}\n` +
+                        `➖➖➖➖➖\n` +
+                        `סה"כ לתשלום: ${totalAmount}`;
+            
+            try {
+                await navigator.clipboard.writeText(text);
+                const btn = document.getElementById('copyResult');
+                const originalText = btn.textContent;
+                btn.textContent = '✅ הועתק!';
+                setTimeout(() => {
+                    btn.textContent = originalText;
+                }, 2000);
+            } catch (err) {
+                alert('לא ניתן להעתיק. אנא נסה שוב.');
+            }
+        });
+
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                const swCode = `
+                    self.addEventListener('install', (e) => {
+                        e.waitUntil(
+                            caches.open('babysitter-calc-v1').then((cache) => {
+                                return cache.addAll(['/']);
+                            })
+                        );
+                    });
+                    self.addEventListener('fetch', (e) => {
+                        e.respondWith(
+                            caches.match(e.request).then((response) => {
+                                return response || fetch(e.request);
+                            })
+                        );
+                    });
+                `;
+                const blob = new Blob([swCode], { type: 'application/javascript' });
+                const swUrl = URL.createObjectURL(blob);
+                navigator.serviceWorker.register(swUrl);
+            });
+        }
+    </script>
+</body>
+</html>
